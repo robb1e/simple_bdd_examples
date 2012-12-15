@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jerkin-examples by robb1e</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Jerkin-examples</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/robb1e/jerkin-examples">View the Project on GitHub <small>robb1e/jerkin-examples</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/robb1e/jerkin-examples/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/robb1e/jerkin-examples/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/robb1e/jerkin-examples">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Jerkin::Examples</h1>
+
+<p>This is an example of how to use the Jerkin library alongside mixing in modules depending on the type of test being run.</p>
+
+<p>It's test framework agnostic, but here this is using RSpec. The strings sent to the methods 'Given', 'When', 'Then' and 'And' are translated into a method which is called in the current scope. </p>
+
+<pre><code>it "has this amazing new feature" do
+  Given "Some state in the application"
+  When "this state transition is applied"
+  Then "this side affect occurs"
+end
+</code></pre>
+
+<p>In the RSpec config, modules are loaded depending on what tags are on the example.  Here different tags are applied to the same test, effectively duplicating the test but with different tags applied each time.</p>
+
+<pre><code>[:integration, :journey].each do |type|
+  describe "Example", group: type do
+    it "has this amazing new feature" do
+      Given "Some state in the application"
+      When "this state transition is applied"
+      Then "this side affect occurs"
+    end
+  end
+end
+</code></pre>
+
+<p>Then the configuration loads different helper modules depending on the tags.</p>
+
+<pre><code>require 'jerkin'
+require 'journey_helpers'
+require 'integration_helpers'
+
+RSpec.configure do |config|
+  config.include Jerkin
+  config.include JourneyHelpers, group: :journey
+  config.include IntegrationHelpers, group: :integration
+end
+</code></pre>
+
+<p>Then the JourneyHelpers and IntegrationHelpers modules have the methods that each tag requires such as:</p>
+
+<pre><code>module IntegrationHelpers
+  def some_state_in_the_application
+  end
+
+  def this_state_transition_is_applied
+  end
+
+  def this_side_affect_occurs
+  end
+end
+</code></pre>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/robb1e">robb1e</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-26466641-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
