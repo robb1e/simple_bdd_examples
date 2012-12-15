@@ -1,24 +1,51 @@
 # Jerkin::Examples
 
-TODO: Write a gem description
+This is an example of how to use the Jerkin library alongside mixing in modules depending on the type of test being run.
 
-## Installation
+It's test framework agnostic, but here this is using RSpec. The strings sent to the methods 'Given', 'When', 'Then' and 'And' are translated into a method which is called in the current scope. 
 
-Add this line to your application's Gemfile:
+    it "has this amazing new feature" do
+      Given "Some state in the application"
+      When "this state transition is applied"
+      Then "this side affect occurs"
+    end
+    
+In the RSpec config, modules are loaded depending on what tags are on the example.  Here different tags are applied to the same test, effectively duplicating the test but with different tags applied each time.
 
-    gem 'jerkin-examples'
+	[:integration, :journey].each do |type|
+  	  describe "Example", group: type do
+    	it "has this amazing new feature" do
+   		  Given "Some state in the application"
+		  When "this state transition is applied"
+		  Then "this side affect occurs"
+    	end
+  	  end
+	end
+	
+Then the configuration loads different helper modules depending on the tags.
 
-And then execute:
+    require 'jerkin'
+	require 'journey_helpers'
+	require 'integration_helpers'
 
-    $ bundle
+	RSpec.configure do |config|
+  	  config.include Jerkin
+  	  config.include JourneyHelpers, group: :journey
+  	  config.include IntegrationHelpers, group: :integration
+	end
 
-Or install it yourself as:
+Then the JourneyHelpers and IntegrationHelpers modules have the methods that each tag requires such as:
 
-    $ gem install jerkin-examples
+	module IntegrationHelpers
+  	  def some_state_in_the_application
+  	  end
+  	  
+	  def this_state_transition_is_applied
+	  end
 
-## Usage
-
-TODO: Write usage instructions here
+  	  def this_side_affect_occurs
+  	  end
+	end
 
 ## Contributing
 
