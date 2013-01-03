@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
 gem 'rspec'
-gem 'jerkin', '>= 0.0.1.1'
+gem 'simple_bdd', '>= 0.0.2'

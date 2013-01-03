@@ -1,4 +1,4 @@
-require 'jerkin'
+require 'simple_bdd'
 require 'journey_helpers'
 require 'integration_helpers'
 
@@ -7,7 +7,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.order = 'random'
-  config.include Jerkin
+  config.include SimpleBdd
   config.include JourneyHelpers, group: :journey
   config.include IntegrationHelpers, group: :integration
 end

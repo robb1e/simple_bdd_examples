@@ -1,6 +1,6 @@
-# Jerkin::Examples
+# SimpleBdd::Examples
 
-This is an example of how to use the Jerkin library alongside mixing in modules depending on the type of test being run.
+This is an example of how to use the simple_bdd library alongside mixing in modules depending on the type of test being run.
 
 It's test framework agnostic, but here this is using RSpec. The strings sent to the methods 'Given', 'When', 'Then' and 'And' are translated into a method which is called in the current scope. 
 
@@ -24,12 +24,12 @@ In the RSpec config, modules are loaded depending on what tags are on the exampl
 	
 Then the configuration loads different helper modules depending on the tags.
 
-    require 'jerkin'
+    require 'simple_bdd'
 	require 'journey_helpers'
 	require 'integration_helpers'
 
 	RSpec.configure do |config|
-  	  config.include Jerkin
+  	  config.include SimpleBdd
   	  config.include JourneyHelpers, group: :journey
   	  config.include IntegrationHelpers, group: :integration
 	end
